@@ -1,15 +1,22 @@
-/*
 const HelloWorld = artifacts.require("HelloWorld")
 
 contract("HelloWorld", accounts => {
-  it("should return number 8", () => {
+  it("getNum() should return number 8", () => {
     HelloWorld.deployed()
       .then(instance => {
         return instance.getNum()
       })
       .then(num => {
-        assert.equal(8, 8)
+        assert.equal(num, 8)
+      })
+  })
+  it('greet() should return "Hello World"', () => {
+    HelloWorld.deployed()
+      .then(instance => {
+        return instance.greet()
+      })
+      .then(msg => {
+        assert.equal(msg, 'Hello World')
       })
   })
 })
-*/

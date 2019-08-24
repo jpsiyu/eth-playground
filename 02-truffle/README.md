@@ -5,3 +5,4 @@
   3.2 truffle migrate -f 2 部署编号为2的合约，HelloWorld
   3.2 创建合约实例: let hello = await HelloWorld.deployed()
   3.3 调用: hello.greet()
+4. 测试: 必须连接 truffle develop 启动的节点，才能运行通过！！！
