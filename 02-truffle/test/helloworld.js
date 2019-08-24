@@ -11,12 +11,12 @@ contract("HelloWorld", accounts => {
       })
   })
   it('greet() should return "Hello World"', () => {
-    HelloWorld.deployed()
+    return HelloWorld.deployed()
       .then(instance => {
         return instance.greet()
       })
       .then(msg => {
-        assert.equal(msg, 'Hello World')
+        assert.equal(msg, 'Hello Worlddd')
       })
   })
 })
