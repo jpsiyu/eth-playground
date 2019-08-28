@@ -1,3 +1,6 @@
+### 安装geth
+https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum
+
 ### 私链搭建
  - create.sh 创建私链
  - start.sh 启动私链
