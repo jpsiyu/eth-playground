@@ -11,5 +11,8 @@
  - start.sh 启动私链
  - connect.sh 连接私链
 
+### 参数解释
+ - https://geth.ethereum.org/interface/Command-Line-Options
+
 #### 其他
   - 启动参数 --minie --etherbase 设置后，才会挖矿，处理Tx 
