@@ -1,5 +1,6 @@
 ### 安装geth
-https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum
+  - 官网: https://geth.ethereum.org/install-and-build/Installing-Geth
+  - github: https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum
 
 ### 创世块配置(genesis.json)
   - chainId: 私链的网络ID
