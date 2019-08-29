@@ -47,7 +47,7 @@ module.exports = {
       port: 8545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
       from: 'a370bfe70687e3d2f17d4723d7d5bfec8806a63b',
-      gas: '10001000'
+      gas: '20001000'
     },
 
     truffle:{

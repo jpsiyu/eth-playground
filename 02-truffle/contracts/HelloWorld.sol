@@ -12,8 +12,8 @@ contract HelloWorld{
     return greeting;
   }
 
-  function getNum() public pure returns (uint8) {
-    return 8;
+  function getNum(uint8 n) public pure returns (uint8) {
+    return n;
   }
 
   function kill() public {
