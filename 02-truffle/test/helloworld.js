@@ -4,7 +4,7 @@ contract("HelloWorld", accounts => {
   it("getNum() should return number 8", () => {
     HelloWorld.deployed()
       .then(instance => {
-        return instance.getNum()
+        return instance.getNum(8)
       })
       .then(num => {
         assert.equal(num, 8)
@@ -16,7 +16,7 @@ contract("HelloWorld", accounts => {
         return instance.greet()
       })
       .then(msg => {
-        assert.equal(msg, 'Hello Worlddd')
+        assert.equal(msg, 'Hello World')
       })
   })
 })
