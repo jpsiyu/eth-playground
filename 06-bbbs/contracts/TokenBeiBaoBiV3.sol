@@ -177,7 +177,7 @@ contract Erc20TokenInterface {
     // event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
  }
 
-contract TokenBeiBaoBi is TokenERC20 {
+contract TokenBeiBaoBiV3 is TokenERC20 {
     
     //function TokenBeiBaoBi(address _owner, address _admin) public {
     // constructor(address _owner, address _admin, address[] memory _users) public {
