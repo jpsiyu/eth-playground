@@ -5,6 +5,7 @@ contract HelloWorld{
   string public greeting;
 
   constructor() public {
+    owner = msg.sender;
     greeting = "Hello World";
   }
 
