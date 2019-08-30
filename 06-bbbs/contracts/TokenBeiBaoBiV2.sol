@@ -180,9 +180,10 @@ contract Erc20TokenInterface {
 contract TokenBeiBaoBiV2 is TokenERC20 {
     
     //function TokenBeiBaoBi(address _owner, address _admin) public {
-    constructor(address _owner, address _admin, address[] memory _users) public {
+    constructor(address _owner, address _admin, address _oldTokenAddr, address[] memory _users) public {
         require(_owner != address(0x0));
         require(_admin != address(0x0));
+        require(_oldTokenAddr != address(0x0));
         owner = _owner;
         admin = _admin;
 
@@ -195,7 +196,7 @@ contract TokenBeiBaoBiV2 is TokenERC20 {
         // balanceOf[address(this)] = totalSupply - toOwner - toAdmin;                 // Give the creator all initial tokens
         // balanceOf[owner] = toOwner;                             // Give the creator all initial tokens
         // balanceOf[admin] = toAdmin;                             // Give the creator all initial tokens
-        loadOldTokenUserAmount(_users);             //new code
+        loadOldTokenUserAmount(_oldTokenAddr, _users);             //new code
 
         name = "BeiBaoBiToken";                                 // Set the name for display purposes
         symbol = "BBB";                                         // Set the symbol for display purposes
@@ -204,8 +205,7 @@ contract TokenBeiBaoBiV2 is TokenERC20 {
 
 
     //function loadOldTokenUserAmount(address[] calldata _users) public onlyOwner{
-    function loadOldTokenUserAmount(address[] memory _users) private {
-        address OldTokenAddress = 0x3B81d9F7Afb4d4cAB0fbA191b3831219a0469B82;       //写死，
+    function loadOldTokenUserAmount(address OldTokenAddress, address[] memory _users) private {
         Erc20TokenInterface ot = Erc20TokenInterface(OldTokenAddress);
         for(uint i = 0; i < _users.length; i ++){
             address addr = _users[i];
