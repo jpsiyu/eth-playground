@@ -37,8 +37,7 @@ contract("BBB", accounts => {
         instance = _instance
       })
       .then(() => {
-        const amounts = [10, 20].map(e => BN(e))
-        return instance.loadOldTokenUserAmount.call([someoneA, someoneB], amounts)
+        return instance.loadOldTokenUserAmount.call([someoneA, someoneB], [10, 20], {from: accounts[0]})
         //return instance.batchTransfer1.call([someoneA, someoneB], 20)
         //return instance.loadUserAmount(someoneA, 1000)
       })
