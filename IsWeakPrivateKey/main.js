@@ -1,17 +1,19 @@
 const isWeakPrivateKey = (privKey) => {
-  if(!privKey) return true
+  if (!privKey) return true
   let res = false
   for (let i = 0; i < privKey.length; i++) {
     const start = privKey[i]
-    let neighbor
-    i + 1 < privKey.length ? neighbor = privKey[i + 1] : false
-    if ((start === '0') || (neighbor === '0') || (start === neighbor)) {
+    let neighbor1, neighbor2
+    i + 1 < privKey.length ? neighbor1 = privKey[i + 1] : false
+    i + 2 < privKey.length ? neighbor2 = privKey[i + 2] : false
+    if (start === neighbor1 && neighbor1 === neighbor2) {
       res = true
       break
     }
   }
   return res
 }
+
 
 const test = () => {
   const keys = [
@@ -24,6 +26,7 @@ const test = () => {
     '1223',
     '1233',
     '1112',
+    '0001',
     '',
   ]
   console.log('\n')
