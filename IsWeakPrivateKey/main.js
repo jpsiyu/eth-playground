@@ -22,6 +22,7 @@ const test = () => {
     '1123',
     '1223',
     '1233',
+    '1112',
   ]
   console.log('\n')
   keys.forEach(e => {
