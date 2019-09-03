@@ -1,4 +1,5 @@
 const isWeakPrivateKey = (privKey) => {
+  if(!privKey) return true
   let res = false
   for (let i = 0; i < privKey.length; i++) {
     const start = privKey[i]
@@ -23,6 +24,7 @@ const test = () => {
     '1223',
     '1233',
     '1112',
+    '',
   ]
   console.log('\n')
   keys.forEach(e => {
