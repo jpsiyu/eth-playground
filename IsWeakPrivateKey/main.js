@@ -9,7 +9,6 @@ const isWeakPrivateKey = (privKey) => {
       break
     }
   }
-
   return res
 }
 
