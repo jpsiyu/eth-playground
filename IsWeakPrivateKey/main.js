@@ -14,6 +14,12 @@ const isWeakPrivateKey = (privKey) => {
   return res
 }
 
+const isWeakPrivateKeyReg = (privKey) => {
+  if (!privKey) return true
+  const reg2 = /(\w)\1{2}/g;
+  res = privKey.match(reg2)
+  return res != null
+}
 
 const test = () => {
   const keys = [
@@ -32,7 +38,8 @@ const test = () => {
   ]
   console.log('\n')
   keys.forEach(e => {
-    const res = isWeakPrivateKey(e)
+    //const res = isWeakPrivateKey(e)
+    const res = isWeakPrivateKeyReg(e)
     console.log(`is ${e} weak private key? ${res}`)
   })
   console.log('\n')
