@@ -68,7 +68,7 @@ contract('BBB', accounts => {
     const teamCycleMax = '10000000000000000000000000'
     const legalMax = '5000000000000000000000000'
     const commMax = '45000000000000000000000000'
-    it(`Max motivate team amount: ${teamCycleMax}`, () => {
+    it(`Max team motivate amount in one cycle: ${teamCycleMax}`, () => {
       return ins.motivateTeam(0, someoneA, teamCycleMax)
         .then(() => {
           return ins.balanceOf(someoneA)
@@ -77,7 +77,7 @@ contract('BBB', accounts => {
           assert.equal(balance, teamCycleMax)
         })
     })
-    it(`Max motivate leagal amount: ${legalMax}`, () => {
+    it(`Max leagal motivate amount: ${legalMax}`, () => {
       return ins.motivateLegal(someoneA, legalMax)
         .then(() => {
           return ins.balanceOf(someoneA)
@@ -86,7 +86,7 @@ contract('BBB', accounts => {
           assert.equal(balance, legalMax)
         })
     })
-    it(`Max motivate community amount: ${commMax}`, () => {
+    it(`Max community motivate amount: ${commMax}`, () => {
       return ins.motivateCommunity(someoneA, commMax)
         .then(() => {
           return ins.balanceOf(someoneA)
