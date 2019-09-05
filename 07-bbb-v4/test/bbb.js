@@ -79,8 +79,7 @@ contract('BBB', accounts => {
         })
     })
     it('Max motivate amount', () => {
-      //const amount =  BN(100000000 * 1e18).toString()
-      const amount = 100000000
+      const amount = '10000000000000000000000000'
       return ins.motivateTeam(0, someoneD, amount)
         .then(() => {
           return ins.balanceOf(someoneD)

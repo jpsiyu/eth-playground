@@ -354,11 +354,12 @@ contract TokenBeiBaoBi is TokenERC20 {
 
     function motivateTeam(uint8 _number, address _member, uint256 _amount) external onlyOwner
     {     
-        uint MaxAmount = 100000000;        //7，	团队激励，1亿，每90天释放1%，2.5年释放完。Owner执行。
+        uint MaxAmount = 10000000;        //7，	团队激励，1亿，每90天释放1%，2.5年释放完。Owner执行。
+        MaxAmount = MaxAmount.mul(10 ** uint(decimals));
         require((now / (1 days) - createDay) / 90 >= _number);
         require(_number < 10);
         require(_amount > 0);
-        require( TeamFillAmount[_number]  + _amount < MaxAmount);
+        require( TeamFillAmount[_number]  + _amount <= MaxAmount);
 
         require(_transfer(address(this), _member,  _amount));
         TeamFillAmount[_number] =  TeamFillAmount[_number] + _amount;
@@ -371,8 +372,9 @@ contract TokenBeiBaoBi is TokenERC20 {
     function motivateCommunity(address _member, uint256 _amount) external onlyOwner
     {     
         uint MaxAmount = 45000000;         //8，	社区激励，0.45亿，可一次或多次释放。Owner执行。
+        MaxAmount = MaxAmount.mul(10 ** uint(decimals));
         require(_amount > 0);
-        require( CommunityFillAmount + _amount < MaxAmount);
+        require( CommunityFillAmount + _amount <= MaxAmount);
         require(_transfer(address(this), _member,  _amount));
         CommunityFillAmount =  CommunityFillAmount + _amount;
 
@@ -384,8 +386,9 @@ contract TokenBeiBaoBi is TokenERC20 {
     function motivateLegal(address _member, uint256 _amount) external onlyOwner
     {     
         uint MaxAmount = 5000000;                   //9，	法务激励，0.05亿，可一次或多次释放。Owner执行。
+        MaxAmount = MaxAmount.mul(10 ** uint(decimals));
         require(_amount > 0);
-        require( LegalFillAmount + _amount < MaxAmount);
+        require( LegalFillAmount + _amount <= MaxAmount);
         require(_transfer(address(this), _member,  _amount));
         LegalFillAmount =  LegalFillAmount + _amount;
 
