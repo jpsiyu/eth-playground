@@ -49,10 +49,10 @@ contract('BBB', accounts => {
           ])
         })
         .then(res => {
-          const [balanceOfB, balanceOfC] = res
+          const [balanceA, balanceB] = res
           //console.log('balance:', BN(balanceOfB).toNumber())
-          assert.equal(balanceOfB, amountB)
-          assert.equal(balanceOfC, amountC)
+          assert.equal(balanceA, amountB)
+          assert.equal(balanceB, amountC)
         })
     })
     it('Only owner can load user amount', () => {
