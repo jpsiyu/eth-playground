@@ -354,7 +354,7 @@ contract TokenBeiBaoBi is TokenERC20 {
 
     function motivateTeam(uint8 _number, address _member, uint256 _amount) external onlyOwner
     {     
-        uint MaxAmount = 100000000;        //7，	团队激励，1亿，每90天释放1%，2.5年释放完。Owner执行。
+        uint MaxAmount = 100000000 ;        //7，	团队激励，1亿，每90天释放10%，2.5年释放完。Owner执行。
         require((now / (1 days) - createDay) / 90 >= _number);
         require(_number < 10);
         require(_amount > 0);

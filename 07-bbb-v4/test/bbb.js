@@ -1,4 +1,5 @@
 const BN = require('bignumber.js')
+const vmerror = require('../lib/vmerror.js')
 const BBB = artifacts.require("TokenBeiBaoBi")
 
 contract('BBB', accounts => {
@@ -7,8 +8,9 @@ contract('BBB', accounts => {
   const someoneA = accounts[2]
   const someoneB = accounts[3]
   const someoneC = accounts[4]
+  const someoneD = accounts[5]
 
-  describe('initialize', () => {
+  describe('Initialize', () => {
     let ins
     before(() => {
       return BBB.deployed()
@@ -25,7 +27,7 @@ contract('BBB', accounts => {
     })
   })
 
-  describe('loadUserAmount', () => {
+  describe('LoadUserAmount', () => {
     let ins
     before(() => {
       return BBB.deployed()
@@ -33,7 +35,7 @@ contract('BBB', accounts => {
           ins = _ins
         })
     })
-    it('Only owner can call loadUserAmount', () => {
+    it('Load one user amount', () => {
       const amount = 100
       return ins.loadUserAmount(someoneA, amount)
         .then(() => {
@@ -43,21 +45,14 @@ contract('BBB', accounts => {
           assert.equal(balance, amount)
         })
     })
-    it('load multi user amount', () => {
-      let instance
+    it('Load multi user amount', () => {
       let amountB = 10
       let amountC = 20
-      return BBB.deployed()
-        .then(_instance => {
-          instance = _instance
-        })
+      return ins.loadOldTokenUserAmount([someoneB, someoneC], [amountB, amountC])
         .then(() => {
-          return instance.loadOldTokenUserAmount([someoneB, someoneC], [amountB, amountC])
-        })
-        .then((res) => {
           return Promise.all([
-            instance.balanceOf.call(someoneB),
-            instance.balanceOf.call(someoneC),
+            ins.balanceOf.call(someoneB),
+            ins.balanceOf.call(someoneC),
           ])
         })
         .then(res => {
@@ -65,6 +60,33 @@ contract('BBB', accounts => {
           //console.log('balance:', BN(balanceOfB).toNumber())
           assert.equal(balanceOfB, amountB)
           assert.equal(balanceOfC, amountC)
+        })
+    })
+    it('Only owner can load user amount', () => {
+      return ins.loadUserAmount(someoneA, 10, { from: admin })
+        .catch(err => {
+          assert(err.message.startsWith(vmerror.head(vmerror.ErrType.revert)))
+        })
+    })
+  })
+
+  describe('MotivateTeam', () => {
+    let ins
+    before(() => {
+      return BBB.deployed()
+        .then(_ins => {
+          ins = _ins
+        })
+    })
+    it('Max motivate amount', () => {
+      //const amount =  BN(100000000 * 1e18).toString()
+      const amount = 100000000
+      return ins.motivateTeam(0, someoneD, amount)
+        .then(() => {
+          return ins.balanceOf(someoneD)
+        })
+        .then(balance => {
+          assert.equal(balance, amount)
         })
     })
   })
