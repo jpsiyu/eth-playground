@@ -7,12 +7,13 @@ contract('BBB', accounts => {
   const admin = accounts[1]
   const someoneA = accounts[2]
   const someoneB = accounts[3]
+  const someoneC = accounts[4]
 
   let ins
   beforeEach(() => {
     return BBB.new(owner, admin)
       .then(_ins => {
-        ins= _ins
+        ins = _ins
       })
   })
 
@@ -39,9 +40,9 @@ contract('BBB', accounts => {
     })
 
     it('Load multi user amount', () => {
-      let amountB = 10
-      let amountC = 20
-      return ins.loadOldTokenUserAmount([someoneA, someoneB], [amountB, amountC])
+      let amountA = 10
+      let amountB = 20
+      return ins.loadOldTokenUserAmount([someoneA, someoneB], [amountA, amountB])
         .then(() => {
           return Promise.all([
             ins.balanceOf.call(someoneA),
@@ -51,8 +52,8 @@ contract('BBB', accounts => {
         .then(res => {
           const [balanceA, balanceB] = res
           //console.log('balance:', BN(balanceOfB).toNumber())
-          assert.equal(balanceA, amountB)
-          assert.equal(balanceB, amountC)
+          assert.equal(balanceA, amountA)
+          assert.equal(balanceB, amountB)
         })
     })
     it('Only owner can load user amount', () => {
@@ -92,6 +93,31 @@ contract('BBB', accounts => {
         })
         .then(balance => {
           assert.equal(balance, commMax)
+        })
+    })
+  })
+
+  describe('BatchTransfer', () => {
+    const amountA = 1000
+    const amountB = 300
+    const amountC = 500
+    it(`Load someoneA ${amountA}, then someoneA batch transfer someoneB ${amountB} and someoneC ${amountC}`, () => {
+      return ins.loadUserAmount(someoneA, amountA)
+        .then(() => {
+          return ins.batchTransfer2([someoneB, someoneC], [amountB, amountC], { from: someoneA })
+        })
+        .then(() => {
+          return Promise.all([
+            ins.balanceOf(someoneA),
+            ins.balanceOf(someoneB),
+            ins.balanceOf(someoneC)
+          ])
+        })
+        .then(res => {
+          const [balanceA, balanceB, balanceC] = res
+          assert.equal(balanceA, amountA - amountB - amountC)
+          assert.equal(balanceB, amountB)
+          assert.equal(balanceC, amountC)
         })
     })
   })
