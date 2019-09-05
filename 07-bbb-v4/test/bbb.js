@@ -12,6 +12,7 @@ contract('BBB', accounts => {
   const acc7 = accounts[6]
   const acc8 = accounts[7]
 
+  let ins
   before(() => {
     return BBB.deployed()
       .then(_ins => {
@@ -20,13 +21,6 @@ contract('BBB', accounts => {
   })
 
   describe('Initialize', () => {
-    let ins
-    before(() => {
-      return BBB.deployed()
-        .then(_ins => {
-          ins = _ins
-        })
-    })
     it("Every account should has balance 0 after deployed!", () => {
       const r = Math.floor(Math.random() * accounts.length)
       return ins.balanceOf(accounts[r])
@@ -37,14 +31,6 @@ contract('BBB', accounts => {
   })
 
   describe('LoadUserAmount', () => {
-    let ins
-    before(() => {
-      return BBB.deployed()
-        .then(_ins => {
-          ins = _ins
-        })
-    })
-
     let amount = 100
     it(`Load one user amount: ${amount}`, () => {
       return ins.loadUserAmount(acc3, amount)
@@ -85,13 +71,6 @@ contract('BBB', accounts => {
     const teamCycleMax = '10000000000000000000000000'
     const legalMax = '5000000000000000000000000'
     const commMax = '45000000000000000000000000'
-    let ins
-    before(() => {
-      return BBB.deployed()
-        .then(_ins => {
-          ins = _ins
-        })
-    })
     it(`Max motivate team amount: ${teamCycleMax}`, () => {
       return ins.motivateTeam(0, acc6, teamCycleMax)
         .then(() => {
