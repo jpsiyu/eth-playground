@@ -1,13 +1,7 @@
 const BN = require('bignumber.js')
 const BBB = artifacts.require("TokenBeiBaoBi")
 
-contract("BBB", accounts => {
-  const owner = accounts[0]
-  const admin = accounts[1]
-  const someoneA = accounts[2]
-  const someoneB = accounts[3]
-
-  /*
+contract('BBB', accounts => {
   it("Every account should has balance 0 after deployed!", () => {
     return BBB.deployed()
       .then(instance => {
@@ -15,44 +9,53 @@ contract("BBB", accounts => {
         return instance.balanceOf.call(accounts[r])
       })
       .then(balance => {
-        //console.log(someoneA, 'balance', BN(balance).toString())
         assert.equal(balance.valueOf(), 0)
       })
   })
-  */
 
-  /*
+})
+
+contract('BBB loadUserAmount', accounts => {
+  const owner = accounts[0]
+  const admin = accounts[1]
+  const someoneA = accounts[2]
+  const someoneB = accounts[3]
+  const someoneC = accounts[4]
+
   it('Only owner can call loadUserAmount', () => {
+    let instance
     return BBB.deployed()
-      .then(instance => {
-        return instance.loadUserAmount(someoneA, 100, {from: owner})
+      .then(_instance => {
+        instance = _instance
+        return instance.loadUserAmount(someoneA, 100)
+      })
+      .then(_ => {
+        return instance.balanceOf(someoneA)
+      })
+      .then(balance => {
+        assert.equal(balance, 100)
       })
   })
-  */
 
-  it('loadOldTokenUserAmount', () => {
+  it('load multi user amount', () => {
     let instance
     return BBB.deployed()
       .then(_instance => {
         instance = _instance
       })
       .then(() => {
-        return instance.loadOldTokenUserAmount.call([someoneA, someoneB], [10, 20], {from: accounts[0]})
-        //return instance.batchTransfer1.call([someoneA, someoneB], 20)
-        //return instance.loadUserAmount(someoneA, 1000)
+        return instance.loadOldTokenUserAmount([someoneB, someoneC], [10, 20])
       })
       .then((res) => {
-        console.log(res)
-        //return instance.balanceOf.call(someoneA)
         return Promise.all([
-          instance.balanceOf.call(someoneA),
           instance.balanceOf.call(someoneB),
+          instance.balanceOf.call(someoneC),
         ])
       })
       .then(res => {
-        const [balanceOfA, balanceOfB] = res
-        assert.equal(balanceOfA, 1000)
-        assert.equal(balanceOfB, 0)
+        const [balanceOfB, balanceOfC] = res
+        assert.equal(balanceOfB, 10)
+        assert.equal(balanceOfC, 20)
       })
   })
 })
