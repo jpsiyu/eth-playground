@@ -5,18 +5,14 @@ const BBB = artifacts.require("TokenBeiBaoBi")
 contract('BBB', accounts => {
   const owner = accounts[0]
   const admin = accounts[1]
-  const acc3 = accounts[2]
-  const acc4 = accounts[3]
-  const acc5 = accounts[4]
-  const acc6 = accounts[5]
-  const acc7 = accounts[6]
-  const acc8 = accounts[7]
+  const someoneA = accounts[2]
+  const someoneB = accounts[3]
 
   let ins
-  before(() => {
-    return BBB.deployed()
+  beforeEach(() => {
+    return BBB.new(owner, admin)
       .then(_ins => {
-        ins = _ins
+        ins= _ins
       })
   })
 
@@ -33,9 +29,9 @@ contract('BBB', accounts => {
   describe('LoadUserAmount', () => {
     let amount = 100
     it(`Load one user amount: ${amount}`, () => {
-      return ins.loadUserAmount(acc3, amount)
+      return ins.loadUserAmount(someoneA, amount)
         .then(() => {
-          return ins.balanceOf(acc3)
+          return ins.balanceOf(someoneA)
         })
         .then(balance => {
           assert.equal(balance, amount)
@@ -45,11 +41,11 @@ contract('BBB', accounts => {
     it('Load multi user amount', () => {
       let amountB = 10
       let amountC = 20
-      return ins.loadOldTokenUserAmount([acc4, acc5], [amountB, amountC])
+      return ins.loadOldTokenUserAmount([someoneA, someoneB], [amountB, amountC])
         .then(() => {
           return Promise.all([
-            ins.balanceOf.call(acc4),
-            ins.balanceOf.call(acc5),
+            ins.balanceOf.call(someoneA),
+            ins.balanceOf.call(someoneB),
           ])
         })
         .then(res => {
@@ -60,7 +56,7 @@ contract('BBB', accounts => {
         })
     })
     it('Only owner can load user amount', () => {
-      return ins.loadUserAmount(acc3, 10, { from: admin })
+      return ins.loadUserAmount(someoneA, 10, { from: admin })
         .catch(err => {
           assert(err.message.startsWith(vmerror.head(vmerror.ErrType.revert)))
         })
@@ -72,27 +68,27 @@ contract('BBB', accounts => {
     const legalMax = '5000000000000000000000000'
     const commMax = '45000000000000000000000000'
     it(`Max motivate team amount: ${teamCycleMax}`, () => {
-      return ins.motivateTeam(0, acc6, teamCycleMax)
+      return ins.motivateTeam(0, someoneA, teamCycleMax)
         .then(() => {
-          return ins.balanceOf(acc6)
+          return ins.balanceOf(someoneA)
         })
         .then(balance => {
           assert.equal(balance, teamCycleMax)
         })
     })
     it(`Max motivate leagal amount: ${legalMax}`, () => {
-      return ins.motivateLegal(acc7, legalMax)
+      return ins.motivateLegal(someoneA, legalMax)
         .then(() => {
-          return ins.balanceOf(acc7)
+          return ins.balanceOf(someoneA)
         })
         .then(balance => {
           assert.equal(balance, legalMax)
         })
     })
     it(`Max motivate community amount: ${commMax}`, () => {
-      return ins.motivateCommunity(acc8, commMax)
+      return ins.motivateCommunity(someoneA, commMax)
         .then(() => {
-          return ins.balanceOf(acc8)
+          return ins.balanceOf(someoneA)
         })
         .then(balance => {
           assert.equal(balance, commMax)
