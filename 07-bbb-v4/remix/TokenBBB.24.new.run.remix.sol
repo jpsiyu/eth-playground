@@ -82,7 +82,7 @@ contract Base {
     
     function isBlacklist(address _Addr) public view returns(bool _result) {  
         require (_Addr != address(0x0));  
-        _result = (now <  (createDay + 90 days) * (1 days)) && blacklistOf[_Addr];
+        _result = (now <  (createDay + 90) * (1 days)) && blacklistOf[_Addr];
     }
 
 }
@@ -320,7 +320,7 @@ contract TokenBeiBaoBi is TokenERC20 {
 
             dayFillOf[_day] = dayFillOf[_day].add(_amount);
             uint DayMaxAmount = getDayMaxAmount(_day);
-            require( dayFillOf[_day] < DayMaxAmount);
+            require( dayFillOf[_day] <= DayMaxAmount);
 
             require(_transfer(address(this), to, _amount));
         }
