@@ -82,7 +82,7 @@ contract Base {
     
     function isBlacklist(address _Addr) public view returns(bool _result) {  
         require (_Addr != address(0x0));  
-        _result = (now <  (createDay + 90 days) * (1 days)) && blacklistOf[_Addr];
+        _result = (now <  (createDay + 90 ) * (1 days)) && blacklistOf[_Addr];
     }
 
 }
@@ -395,7 +395,10 @@ contract TokenBeiBaoBi is TokenERC20 {
         emit OnMotivate(200, _member, _amount,  msg.sender);
     }
 
-    
+    function changeCreateDay(uint day) external onlyOwner{
+        createDay = day;
+    }
+
     function() payable external {
         // require(1 == 2);    //selfdestruct(_to);
     }

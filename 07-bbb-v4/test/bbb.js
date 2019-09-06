@@ -9,6 +9,8 @@ contract('BBB', accounts => {
   const someoneB = accounts[3]
   const someoneC = accounts[4]
 
+  const dayms = 86400 * 1000
+
   let ins
   beforeEach(() => {
     return BBB.new(owner, admin)
@@ -17,6 +19,7 @@ contract('BBB', accounts => {
       })
   })
 
+  /*
   describe('Initialize', () => {
     it("Every account should has balance 0 after deployed!", () => {
       const r = Math.floor(Math.random() * accounts.length)
@@ -97,7 +100,7 @@ contract('BBB', accounts => {
     })
   })
 
-  describe('BatchTransfer', () => {
+  describe('Batch transfer', () => {
     const amountA = 1000
     const amountB = 300
     const amountC = 500
@@ -118,6 +121,47 @@ contract('BBB', accounts => {
           assert.equal(balanceA, amountA - amountB - amountC)
           assert.equal(balanceB, amountB)
           assert.equal(balanceC, amountC)
+        })
+    })
+  })
+  */
+  describe("Create day", () => {
+    it('Blacklist function will stop after 90 days', () => {
+      return ins.addBlacklist(someoneA, { from: admin })
+        .then(() => {
+          return ins.isBlacklist(someoneA)
+        })
+        .then(b => {
+          assert(b)
+        })
+        .then(() => {
+          const someDate = new Date()
+          const day = Math.floor(someDate.getTime() / (86400 * 1000)) - 90
+          return ins.changeCreateDay(day)
+        })
+        .then(() => {
+          return ins.isBlacklist(someoneA)
+        })
+        .then(b => {
+          assert(!b)
+        })
+    })
+    it('getDayMaxAmount', () => {
+      return ins.createDay()
+        .then(day => {
+          const d = BN(day).toNumber()
+          return Promise.all([
+            ins.getDayMaxAmount(d),
+            ins.getDayMaxAmount(d + 1),
+            ins.getDayMaxAmount(d + 200),
+            ins.getDayMaxAmount(d + 400),
+          ])
+        })
+        .then(amounts => {
+          assert.equal(amounts[0], 4e23)
+          assert.equal(amounts[1], 4e23)
+          assert.equal(amounts[2], Math.floor(4e23 * 0.9))
+          assert.equal(amounts[3], Math.floor(4e23 * 0.9 * 0.9))
         })
     })
   })
