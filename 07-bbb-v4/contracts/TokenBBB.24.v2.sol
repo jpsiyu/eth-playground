@@ -320,7 +320,7 @@ contract TokenBeiBaoBi is TokenERC20 {
 
             dayFillOf[_day] = dayFillOf[_day].add(_amount);
             uint DayMaxAmount = getDayMaxAmount(_day);
-            require( dayFillOf[_day] < DayMaxAmount);
+            require( dayFillOf[_day] <= DayMaxAmount);
 
             require(_transfer(address(this), to, _amount));
         }

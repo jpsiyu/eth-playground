@@ -19,7 +19,6 @@ contract('BBB', accounts => {
       })
   })
 
-  /*
   describe('Initialize', () => {
     it("Every account should has balance 0 after deployed!", () => {
       const r = Math.floor(Math.random() * accounts.length)
@@ -124,7 +123,6 @@ contract('BBB', accounts => {
         })
     })
   })
-  */
   describe("Create day", () => {
     it('Blacklist function will stop after 90 days', () => {
       return ins.addBlacklist(someoneA, { from: admin })
