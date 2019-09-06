@@ -164,5 +164,32 @@ contract('BBB', accounts => {
           assert.equal(amounts[3], Math.floor(4e23 * 0.9 * 0.9))
         })
     })
+    it('Issue max amount at create day', () => {
+      let createDay
+      let amount
+      return ins.createDay()
+        .then(day => createDay = day)
+        .then(() => ins.getDayMaxAmount(createDay))
+        .then(max => amount = max)
+        .then(() => ins.issue1(createDay, [someoneA], amount))
+        .then(() => ins.balanceOf(someoneA))
+        .then(balance => assert.equal(balance, amount.toString()))
+    })
+    it('Issue max amount after 200 day', () => {
+      let someDay
+      let createDay
+      let amount
+      return ins.createDay()
+        .then(day => {
+          createDay = day
+          someDay = day - 201
+        })
+        .then(() => ins.changeCreateDay(someDay))
+        .then(() => ins.getDayMaxAmount(createDay))
+        .then(max => amount = max)
+        .then(() => ins.issue1(createDay, [someoneA], amount))
+        .then(() => ins.balanceOf(someoneA))
+        .then(balance => assert.equal(balance, amount.toString()))
+    })
   })
 })
