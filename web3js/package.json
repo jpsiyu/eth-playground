@@ -1,0 +1,13 @@
+{
+  "name": "web3js",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "consola": "^2.10.1",
+    "web3": "^1.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  }
+}

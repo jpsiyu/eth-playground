@@ -53,13 +53,23 @@ const sign = _ => {
     })
 }
 
+const getAddr = _ => {
+  const privateKey = '0x0123456789012345678901234567890123456789012345678901234567890123'
+  const wallet = new ethers.Wallet(privateKey)
+  return wallet.getAddress()
+    .then(addr => {
+      consola.info('addr', addr)
+    })
+}
+
 const main = async () => {
   return Promise.resolve()
     .then(_ => walletFromKey())
     .then(_ => walletFromRandom())
     .then(_ => walletFromJson())
     .then(_ => walletFromMnemonic())
-    .then( _ => sign())
+    .then(_ => sign())
+    .then(_ => getAddr())
 }
 
 main()
