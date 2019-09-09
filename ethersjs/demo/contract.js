@@ -14,8 +14,26 @@ const deploy = _ => {
       contract = _contract
       return contract.deployed()
     })
+    .then( _ => {
+      contract.on('ValueChanged', (author, oldValue, newValue, event) => {
+        consola.info(`value change event: from ${oldValue} to ${newValue}`)
+      })
+    })
     .then(_ => {
-      consola.log(`contract deployed at ${contract.address}`)
+      consola.info(`contract deployed at ${contract.address}`)
+    })
+    .then( _ => {
+      return contract.getValue()
+    })
+    .then(value => {
+      consola.info(`contract value is ${value}`)
+    })
+    .then( _ => {
+      return contract.setValue('I love u')
+    })
+    .then(tx => {
+      consola.info(`get tx: ${tx.hash}`)
+      return tx.wait()
     })
     .then( _ => {
       return contract.getValue()
