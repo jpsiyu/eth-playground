@@ -41,5 +41,13 @@ const main = () => {
     extendedPrivKey: p11.extendedKey,
     extendedPubKey: p11.neuter().extendedKey
   })
+
+  consola.info('what is neutered node ?')
+  console.table(p11.neuter())
+
+  consola.info('derive from neuterd node')
+  console.table(p11.neuter().derivePath('1'))
+
+  console.table(masterEthNode.neuter())
 }
 main()
