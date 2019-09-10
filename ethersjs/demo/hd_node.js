@@ -3,8 +3,9 @@ const HDNode = ethers.utils.HDNode
 const consola = require('consola')
 
 const main = () => {
+  const password = 'hejife37249238jfij23'
   const mnemonic = 'radar blur cabbage chef fix engine embark joy scheme fiction master release'
-  const masterNode = HDNode.fromMnemonic(mnemonic, ethers.wordlists.en, 'heloji')
+  const masterNode = HDNode.fromMnemonic(mnemonic, ethers.wordlists.en, password)
   consola.info('master node')
   console.table(masterNode)
 
@@ -27,6 +28,18 @@ const main = () => {
   consola.info('node 1/1')
   console.table(p11)
 
+  consola.info('seed of master:')
+  console.table({
+    node: 'master',
+    seed: HDNode.mnemonicToSeed(masterNode.mnemonic),
+    seedWithPassword: HDNode.mnemonicToSeed(masterNode.mnemonic, password)
+  })
 
+  consola.info('extend key')
+  console.table({
+    node: 'p1/1',
+    extendedPrivKey: p11.extendedKey,
+    extendedPubKey: p11.neuter().extendedKey
+  })
 }
 main()
