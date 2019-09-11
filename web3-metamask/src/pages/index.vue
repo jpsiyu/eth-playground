@@ -2,6 +2,7 @@
   <div class="idx">
     <template v-if="hasMetamask">
       <Net />
+      <Account />
     </template>
     <template v-else>
       <Plugin />
@@ -12,8 +13,9 @@
 <script>
 import Plugin from '@/components/Plugin'
 import Net from '@/components/Net'
+import Account from '@/components/Account'
 export default {
-  components: { Plugin, Net },
+  components: { Plugin, Net, Account },
   data() {
     return {
       hasMetamask: false,
@@ -23,25 +25,6 @@ export default {
     this.hasMetamask = this.$metamask.using()
   },
   methods: {
-    test() {
-      if (this.$metamask.using()) {
-        Promise.resolve()
-          .then(_ => {
-            return this.$web3.eth.net.getId()
-          })
-          .then(netId => {
-            console.log(netId)
-          })
-          .then(_ => {
-            return this.$metamask.enable()
-          })
-          .then(_ => {
-          })
-          .finally(_ => {
-            console.log('finally', this.$metamask.accounts)
-          })
-      }
-    }
   },
 }
 </script>

@@ -3,7 +3,6 @@ import Web3 from 'web3'
 class Metamask {
   constructor() {
     this.ethereum = window.ethereum
-    this.isEnable = false
     this.accounts = []
   }
 
@@ -11,10 +10,13 @@ class Metamask {
     return (typeof this.ethereum !== 'undefined') && (this.ethereum.isMetaMask)
   }
 
+  isEnabled() {
+    return this.ethereum._metamask.isEnabled()
+  }
+
   async enable() {
     return this.ethereum.enable()
       .then(accounts => {
-        this.isEnable = true
         this.accounts = accounts
       })
       .catch(err => {
