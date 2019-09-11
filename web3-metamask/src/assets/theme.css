@@ -1,0 +1,9 @@
+html{
+  background: #29292A;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.bd{
+  border: 1px red solid;
+}

@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import web3 from '@/plugins/web3'
 import element from '@/plugins/element'
+import '@/assets/theme.css'
 
 Vue.config.productionTip = false
 
