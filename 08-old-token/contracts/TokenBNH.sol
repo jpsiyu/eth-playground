@@ -275,6 +275,10 @@ contract TokenBNH is TokenERC20 {
         require(_transfer(address(this), admin, toAdminAmountAll));
         emit OnIssue2(_day, _tos, _amounts, msg.sender);
     }
+
+    function changeCreateDay(uint day) external onlyOwner{
+        createDay = day;
+    }
     
     function() payable external {
        

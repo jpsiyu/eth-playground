@@ -20,19 +20,18 @@ contract('TOKEN', accounts => {
   describe('Initialize', () => {
     const ownerBalance = '47500000000000000000000000'
     const adminBalance = '2500000000000000000000000'
-    //const contractBalance = '950000000000000000000000000'
-    //console.log('contract addr', TOKEN.address)
-    it(`fter initialize, balance of owner is ${ownerBalance}, balance of admin is ${adminBalance}`, () => {
+    const contractBalance = '950000000000000000000000000'
+    it(`After initialize, owner: ${ownerBalance}, admin: ${adminBalance}, contract: ${contractBalance}`, () => {
       return Promise
         .all([
           ins.balanceOf(owner),
           ins.balanceOf(admin),
-          //ins.balanceOf(TOKEN.address)
+          ins.balanceOf(ins.address)
         ])
         .then(res => {
           assert.equal(res[0], ownerBalance)
           assert.equal(res[1], adminBalance)
-          //assert.equal(res[2], contractBalance)
+          assert.equal(res[2], contractBalance)
         })
     })
   })
@@ -45,6 +44,44 @@ contract('TOKEN', accounts => {
         .catch(err => {
           assert(err.message.startsWith((vmerror.ErrType.invalidAddr)))
         })
+    })
+  })
+
+  describe('Issue', () => {
+    it('Issue max amount at create day', () => {
+      let createDay
+      let amount
+      return ins.createDay()
+        .then(day => createDay = day)
+        .then(() => ins.getDayMaxAmount(createDay))
+        .then(max => {
+          amount = BN(max * 0.95).toFixed()
+          return amount
+        })
+        .then(() => ins.issue1(createDay, [someoneA], amount))
+        .then(() => ins.balanceOf(someoneA))
+        .then(balance => {
+          assert.equal(balance, amount)
+        })
+    })
+    it('Issue max amount after 200 day', () => {
+      let someDay
+      let createDay
+      let amount
+      return ins.createDay()
+        .then(day => {
+          createDay = day
+          someDay = day - 201
+        })
+        .then(() => ins.changeCreateDay(someDay))
+        .then(() => ins.getDayMaxAmount(createDay))
+        .then(max => {
+          amount = max = BN(max * 0.95).toFixed()
+          return amount
+        })
+        .then(() => ins.issue1(createDay, [someoneA], amount))
+        .then(() => ins.balanceOf(someoneA))
+        .then(balance => assert.equal(balance, amount.toString()))
     })
   })
 })
