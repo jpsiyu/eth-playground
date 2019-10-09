@@ -1,7 +1,14 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.24;
+
+/*
 import "openzeppelin-solidity/contracts/token/ERC20/MintableToken.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/BurnableToken.sol";
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+*/
+
+import "../openzeppelin-solidity/contracts/token/ERC20/MintableToken.sol";
+import "../openzeppelin-solidity/contracts/token/ERC20/BurnableToken.sol";
+import "../openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract FieldChainAsset is Ownable,BurnableToken, MintableToken{
     string public name = "FieldChainAsset Coin";
