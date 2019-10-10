@@ -1,3 +1,7 @@
+/**
+ *Submitted for verification at Etherscan.io on 2019-10-10
+*/
+
 // pragma solidity >=0.4.22 <0.6.0;
 pragma solidity  ^0.5.8;
 
@@ -129,9 +133,10 @@ contract TokenERC20 is Base {
 
 contract TokenFC is TokenERC20 {
     
-    constructor() public {
-        owner = "0x822f16c5d0de0a9fdf35178703bfac5de2a46713";
-
+    constructor(address _owner) public {
+        require(_owner != address(0x0));
+        owner = _owner;
+        
         totalSupply = 200000000 * 10 ** uint256(decimals);     // Update total supply with the decimal amount
         balanceOf[owner] = totalSupply;
 
