@@ -1,20 +1,23 @@
-pragma solidity ^0.4.24;
-import "./FieldChainAsset.sol";
+pragma solidity ^0.4.0;
+import "./FieldChainCoin.sol";
 
-contract FieldChainAssetCtlContract is Ownable{
-    FieldChainAsset facoin;
+contract FieldChainCoinCtlContract is Ownable{
+    FieldChainCoin facoin;
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
     mapping (address => bool) accessAllowed;
     constructor(address _dataContractAddr) public {
-        facoin = FieldChainAsset(_dataContractAddr);
+        facoin = FieldChainCoin(_dataContractAddr);
         accessAllowed[msg.sender] = true;
     }
 
 
     function sendCoin(address receiver, uint amount) public returns(bool sufficient) {
         if (facoin.getBalance(msg.sender) < amount) return false;
-        facoin.setBalance(msg.sender, facoin.getBalance(msg.sender) - amount);
-        facoin.setBalance(receiver, facoin.getBalance(receiver) + amount);
+
+        //facoin.setBalance(msg.sender, facoin.getBalance(msg.sender) - amount);
+        facoin.getBalance(msg.sender) - amount;
+        //facoin.setBalance(receiver, facoin.getBalance(receiver) + amount);
+        facoin.getBalance(receiver) + amount;
         emit Transfer(msg.sender, receiver, amount);
         return true;
     }
