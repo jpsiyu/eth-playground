@@ -1,0 +1,9 @@
+{
+  "name": "09-openzeppelin-erc20",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@openzeppelin/contracts": "^2.3.0"
+  }
+}
