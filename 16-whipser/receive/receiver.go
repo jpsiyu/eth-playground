@@ -2,7 +2,9 @@ package receive
 
 import (
 	"context"
+	"encoding/json"
 	"log"
+	"whisper/common"
 
 	"github.com/ethereum/go-ethereum/whisper/shhclient"
 	"github.com/ethereum/go-ethereum/whisper/whisperv6"
@@ -36,7 +38,9 @@ func (receiver *Receiver) Run() {
 		case err := <-sub.Err():
 			log.Fatal(err)
 		case message := <-messages:
-			log.Println(string(message.Payload))
+			var userMsg common.UserMsg
+			json.Unmarshal(message.Payload, &userMsg)
+			log.Println(userMsg.User.Name, ":", userMsg.Msg)
 		}
 	}
 }

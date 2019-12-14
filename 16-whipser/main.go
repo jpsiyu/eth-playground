@@ -20,10 +20,12 @@ func main() {
 		log.Fatal((err))
 	}
 
+	user := common.RandomUser()
+
 	receiver := receive.NewReceiver(client, keyID)
 	go receiver.Run()
 
-	sender := send.NewSender(client, keyID)
+	sender := send.NewSender(&user, client, keyID)
 	fmt.Println("Enter your message:")
 	for {
 		reader := bufio.NewReader(os.Stdin)
