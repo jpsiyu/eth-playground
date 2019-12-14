@@ -1,10 +1,8 @@
 package main
 
 import (
-	"fmt"
-	"log"
 	"context"
-	"os"
+	"log"
 	"runtime"
 
 	"github.com/ethereum/go-ethereum/whisper/shhclient"
@@ -23,27 +21,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// subscribe message
-	messages := make(chan *whisperv6.Message)
-	criteria := whisperv6.Criteria{
-		PrivateKeyID: keyID,
-	}
-	sub, err := client.SubscribeMessages(context.Background(), criteria, messages)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	go func(){
-		for {
-			select{
-			case err := <-sub.Err():
-				log.Fatal(err)
-			case message := <- messages:
-				fmt.Println(string(message.Payload))
-				os.Exit(0)
-			}
-		}
-	}()
+	receiver := NewReceiver(keyID)
+	go receiver.run()
 
 	// send message
 	pub, err := client.PublicKey(context.Background(), keyID)
@@ -52,10 +31,10 @@ func main() {
 	}
 
 	message := whisperv6.NewMessage{
-		Payload: []byte("hello"),
+		Payload:   []byte("hello"),
 		PublicKey: pub,
-		TTL: 60,
-		PowTime: 2,
+		TTL:       60,
+		PowTime:   2,
 		PowTarget: 2.5,
 	}
 
