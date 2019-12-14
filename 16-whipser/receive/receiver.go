@@ -3,6 +3,7 @@ package receive
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"whisper/common"
 
@@ -13,12 +14,14 @@ import (
 type Receiver struct {
 	client *shhclient.Client
 	keyID  string
+	user   *common.User
 }
 
-func NewReceiver(client *shhclient.Client, keyID string) *Receiver {
+func NewReceiver(user *common.User, client *shhclient.Client, keyID string) *Receiver {
 	return &Receiver{
 		client: client,
 		keyID:  keyID,
+		user:   user,
 	}
 }
 
@@ -40,7 +43,9 @@ func (receiver *Receiver) Run() {
 		case message := <-messages:
 			var userMsg common.UserMsg
 			json.Unmarshal(message.Payload, &userMsg)
-			log.Println(userMsg.User.Name, ":", userMsg.Msg)
+			if userMsg.User.ID != receiver.user.ID {
+				fmt.Printf("(%d)%s: %s\n", userMsg.User.ID, userMsg.User.Name, userMsg.Msg)
+			}
 		}
 	}
 }

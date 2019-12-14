@@ -2,18 +2,20 @@ package common
 
 import (
 	"context"
+	"math/rand"
+	"time"
 
 	"github.com/ethereum/go-ethereum/whisper/shhclient"
 )
 
-type User struct{
-	ID string `json:"id"`
+type User struct {
+	ID   int64  `json:"id"`
 	Name string `json:"name"`
 }
 
-type UserMsg struct{
-	User User `json:"user"`
-	Msg string `json:"msg"`
+type UserMsg struct {
+	User User   `json:"user"`
+	Msg  string `json:"msg"`
 }
 
 func GenKey() string {
@@ -23,7 +25,7 @@ func GenKey() string {
 func RandomKey() (error, string) {
 	client, err := shhclient.Dial("ws://127.0.0.1:8546")
 	if err != nil {
-		return err, "" 
+		return err, ""
 	}
 
 	keyID, err := client.NewKeyPair(context.Background())
@@ -33,9 +35,28 @@ func RandomKey() (error, string) {
 	return nil, keyID
 }
 
-func RandomUser() User{
+var names []string = []string{
+	"Adom",
+	"Bob",
+	"Cindy",
+	"David",
+	"Emmy",
+	"Fredy",
+	"Gay",
+	"Hillary",
+	"Jack",
+	"Kitty",
+	"Lemon",
+	"Mansole",
+	"Net",
+}
+
+func RandomUser() User {
+	rand.Seed(time.Now().Unix())
+	index := rand.Intn(len(names))
+	name := names[index]
 	return User{
-		ID: "124",
-		Name: "Tom",
+		ID:   rand.Int63n(100000000000000),
+		Name: name,
 	}
 }

@@ -22,7 +22,7 @@ func main() {
 
 	user := common.RandomUser()
 
-	receiver := receive.NewReceiver(client, keyID)
+	receiver := receive.NewReceiver(&user, client, keyID)
 	go receiver.Run()
 
 	sender := send.NewSender(&user, client, keyID)
