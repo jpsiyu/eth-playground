@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/ethereum/go-ethereum/whisper/shhclient"
@@ -26,7 +25,7 @@ func NewReceiver(keyID string) *Receiver {
 	}
 }
 
-func (receiver *Receiver) run() {
+func (receiver *Receiver) Run() {
 	messages := make(chan *whisperv6.Message)
 	criteria := whisperv6.Criteria{
 		PrivateKeyID: receiver.keyID,
@@ -42,7 +41,7 @@ func (receiver *Receiver) run() {
 		case err := <-sub.Err():
 			log.Fatal(err)
 		case message := <-messages:
-			fmt.Println(string(message.Payload))
+			log.Println("message received", string(message.Payload))
 		}
 	}
 }

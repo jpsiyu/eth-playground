@@ -6,7 +6,6 @@ import (
 	"runtime"
 
 	"github.com/ethereum/go-ethereum/whisper/shhclient"
-	"github.com/ethereum/go-ethereum/whisper/whisperv6"
 )
 
 func main() {
@@ -22,27 +21,11 @@ func main() {
 	}
 
 	receiver := NewReceiver(keyID)
-	go receiver.run()
+	go receiver.Run()
 
 	// send message
-	pub, err := client.PublicKey(context.Background(), keyID)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	message := whisperv6.NewMessage{
-		Payload:   []byte("hello"),
-		PublicKey: pub,
-		TTL:       60,
-		PowTime:   2,
-		PowTarget: 2.5,
-	}
-
-	hash, err := client.Post(context.Background(), message)
-	_ = hash
-	if err != nil {
-		log.Fatal(err)
-	}
+	sender := NewSender(keyID)
+	go sender.Run()
 
 	runtime.Goexit()
 }
