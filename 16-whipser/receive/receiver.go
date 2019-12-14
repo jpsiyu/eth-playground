@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"log"
+	"runtime"
+	"whisper/common"
 
 	"github.com/ethereum/go-ethereum/whisper/shhclient"
 	"github.com/ethereum/go-ethereum/whisper/whisperv6"
@@ -36,12 +38,20 @@ func (receiver *Receiver) Run() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Println("wait for message...")
 	for {
 		select {
 		case err := <-sub.Err():
 			log.Fatal(err)
 		case message := <-messages:
-			log.Println("message received", string(message.Payload))
+			log.Println(string(message.Payload))
 		}
 	}
+}
+
+func main() {
+	keyID := common.GenKey()
+	receiver := NewReceiver(keyID)
+	go receiver.Run()
+	runtime.Goexit()
 }
