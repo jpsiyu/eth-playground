@@ -1,13 +1,8 @@
-package main
+package send
 
 import (
-	"bufio"
 	"context"
-	"fmt"
 	"log"
-	"os"
-	"strings"
-	"whisper/common"
 
 	"github.com/ethereum/go-ethereum/whisper/shhclient"
 	"github.com/ethereum/go-ethereum/whisper/whisperv6"
@@ -19,11 +14,7 @@ type Sender struct {
 	pubKey []byte
 }
 
-func NewSender(keyID string) *Sender {
-	client, err := shhclient.Dial("ws://127.0.0.1:8546")
-	if err != nil {
-		log.Fatal((err))
-	}
+func NewSender(client *shhclient.Client, keyID string) *Sender {
 	pub, err := client.PublicKey(context.Background(), keyID)
 	if err != nil {
 		log.Fatal((err))
@@ -47,18 +38,5 @@ func (sender *Sender) Say(msg string) {
 	_, err := sender.client.Post(context.Background(), message)
 	if err != nil {
 		log.Fatal((err))
-	}
-}
-
-func main() {
-	keyID := common.GenKey()
-	sender := NewSender(keyID)
-
-	fmt.Println("Enter your message:")
-	for {
-		reader := bufio.NewReader(os.Stdin)
-		msg, _ := reader.ReadString('\n')
-		msg = strings.Replace(msg, "\n", "", -1)
-		sender.Say(msg)
 	}
 }
