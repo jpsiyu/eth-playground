@@ -23,4 +23,7 @@ replace (
 	google.golang.org/grpc => github.com/grpc/grpc-go v1.25.1
 )
 
-require github.com/ethereum/go-ethereum v1.9.9
+require (
+	github.com/buger/goterm v0.0.0-20181115115552-c206103e1f37
+	github.com/ethereum/go-ethereum v1.9.9
+)

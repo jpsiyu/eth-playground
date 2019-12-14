@@ -10,10 +10,18 @@ import (
 	"whisper/receive"
 	"whisper/send"
 
+	tm "github.com/buger/goterm"
 	"github.com/ethereum/go-ethereum/whisper/shhclient"
 )
 
+func clear() {
+	tm.Clear()
+	tm.MoveCursor(1, 1)
+	tm.Flush()
+}
+
 func main() {
+	clear()
 	keyID := common.GenKey()
 	client, err := shhclient.Dial("ws://127.0.0.1:8546")
 	if err != nil {
